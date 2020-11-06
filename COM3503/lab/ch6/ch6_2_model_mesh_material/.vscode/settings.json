@@ -1,0 +1,22 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        ".\\jar\\gluegen.jar",
+        ".\\jar\\gluegen-rt.jar",
+        ".\\jar\\gluegen-rt-natives-macosx-universal.jar",
+        ".\\jar\\gluegen-rt-natives-windows-amd64.jar",
+        ".\\jar\\gluegen-test-util.jar",
+        ".\\jar\\joal.jar",
+        ".\\jar\\joal-natives-macosx-universal.jar",
+        ".\\jar\\joal-natives-windows-amd64.jar",
+        ".\\jar\\joal-test.jar",
+        ".\\jar\\jocl.jar",
+        ".\\jar\\jocl-natives-macosx-universal.jar",
+        ".\\jar\\jocl-natives-windows-amd64.jar",
+        ".\\jar\\jocl-test.jar",
+        ".\\jar\\jogl-all.jar",
+        ".\\jar\\jogl-all-natives-macosx-universal.jar",
+        ".\\jar\\jogl-all-natives-windows-amd64.jar",
+        ".\\jar\\jogl-test.jar"
+    ]
+}
