@@ -79,13 +79,21 @@ public class S02_GLEventListener implements GLEventListener {
     double elapsedTime = getSeconds() - startTime;
   
     gl.glUseProgram(shaderProgram);
+
+    //RGB settings
+    float xOffset = (float)Math.sin(elapsedTime)*0.5f;
+    float yOffset = (float)Math.sin(elapsedTime/2)*0.5f;
+    int offsetLocation = gl.glGetUniformLocation(shaderProgram, "uniformOffset");
+    gl.glUniform2f(offsetLocation, xOffset, yOffset);
+
   
     float redValue = 0.9f;
     float greenValue = (float)Math.sin(elapsedTime*5);
     float blueValue = 0.2f;
     int vertexColourLocation = gl.glGetUniformLocation(shaderProgram, "uniformColor");
     gl.glUniform4f(vertexColourLocation, redValue, greenValue, blueValue, 1.0f);
-  
+
+
     gl.glBindVertexArray(vertexArrayId[0]);
     gl.glDrawElements(GL.GL_TRIANGLES, indices.length, GL.GL_UNSIGNED_INT, 0);
     gl.glBindVertexArray(0);
@@ -145,6 +153,8 @@ public class S02_GLEventListener implements GLEventListener {
     "#version 330 core\n" +
     "\n" +
     "layout (location = 0) in vec3 position;\n" +
+    "\n" +
+    "uniform vec2 uniformOffset;\n" +
     "\n" +
     "void main() {\n" +
     "  gl_Position = vec4(position.x, position.y, position.z, 1.0);\n" +

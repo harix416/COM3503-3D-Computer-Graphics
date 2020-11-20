@@ -90,11 +90,24 @@ public class T04_GLEventListener implements GLEventListener {
   
     shader.use(gl);
     
+    // double t = elapsedTime*0.1;  // *0.1 slows it down a bit
+    // float offsetX = (float)(t - Math.floor(t));
+    // float offsetY = 0.0f;
+    // shader.setFloat(gl, "offset", offsetX, offsetY);
+    
     double t = elapsedTime*0.1;  // *0.1 slows it down a bit
     float offsetX = (float)(t - Math.floor(t));
-    float offsetY = 0.0f;
-    shader.setFloat(gl, "offset", offsetX, offsetY);
-    
+    float offsetY = (float)(Math.sin(elapsedTime)*0.1);
+    shader.setFloat(gl, "offset1", offsetX, offsetY);
+    offsetX = (float)Math.sin((t - Math.floor(t))*1.5708);
+    offsetY = (float)(Math.sin(elapsedTime*1.1)*0.2);
+    shader.setFloat(gl, "offset2", offsetX, offsetY);
+    float temp = (float)Math.sin((t - Math.floor(t))*1.5708);
+    offsetX = temp*temp;
+    offsetY = (float)(Math.sin(elapsedTime*0.9)*0.05);
+    shader.setFloat(gl, "offset3", offsetX, offsetY);
+
+
     shader.setInt(gl, "first_texture", 0);
     shader.setInt(gl, "second_texture", 1);
 

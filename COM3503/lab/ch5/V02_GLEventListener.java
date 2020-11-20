@@ -103,11 +103,12 @@ public class V02_GLEventListener implements GLEventListener {
   
   private Mat4 getModelMatrix() {
     double elapsedTime = getSeconds()-startTime;
-    //float angle = -55;
-    //float angle = (float)(-115*Math.sin(Math.toRadians(elapsedTime*50)));
+    // float angle = -55;
+    float angle = (float)(-115*Math.sin(Math.toRadians(elapsedTime*50)));
     Mat4 modelMatrix = new Mat4(1);
-    //modelMatrix = Mat4.multiply(Mat4Transform.rotateAroundY(angle), modelMatrix);
-    //modelMatrix = Mat4.multiply(Mat4Transform.rotateAroundX(angle), modelMatrix);
+    // modelMatrix = Mat4.multiply(Mat4Transform.rotateAroundY(angle), modelMatrix);
+    // modelMatrix = Mat4.multiply(Mat4Transform.rotateAroundX(angle), modelMatrix);
+    modelMatrix = Mat4.multiply(Mat4Transform.rotateAroundZ(angle), modelMatrix);
     return modelMatrix;
   }
   
@@ -116,8 +117,8 @@ public class V02_GLEventListener implements GLEventListener {
     float xposition = 2;
     float yposition = 3;
     float zposition = 4;
-    //float xposition = 3.0f*(float)(Math.sin(Math.toRadians(elapsedTime*50)));
-    //float zposition = 3.0f*(float)(Math.cos(Math.toRadians(elapsedTime*50)));
+    // float xposition = 3.0f*(float)(Math.sin(Math.toRadians(elapsedTime*50)));
+    // float zposition = 3.0f*(float)(Math.cos(Math.toRadians(elapsedTime*50)));
     Mat4 viewMatrix = Mat4Transform.lookAt(new Vec3(xposition,yposition,zposition), new Vec3(0,0,0), new Vec3(0,1,0));
     return viewMatrix;
   }

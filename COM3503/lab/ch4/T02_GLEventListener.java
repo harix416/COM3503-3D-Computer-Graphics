@@ -75,20 +75,27 @@ public class T02_GLEventListener implements GLEventListener {
      // Now for some textures
   private int[] textureId1 = new int[1];
   private int[] textureId2 = new int[1];
+  private int[] textureId3 = new int[1];
 
   public void initialise(GL3 gl) {
     shader = new Shader(gl, "vs_T02.txt", "fs_T02.txt");
     fillBuffers(gl);
     textureId1 = TextureLibrary.loadTexture(gl, "wattBook.jpg");
     textureId2 = TextureLibrary.loadTexture(gl, "chequerboard.jpg");
+    textureId3 = TextureLibrary.loadTexture(gl, "cloud.jpg");
   }
 
   public void render(GL3 gl) {
     gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-	
+  
+    double elapsedTime = getSeconds() - startTime;
+
+
     shader.use(gl);
+    shader.setFloat(gl, "mixAmount", (float)((Math.sin(elapsedTime)+1)*0.5));  // ***
     shader.setInt(gl, "first_texture", 0);
     shader.setInt(gl, "second_texture", 1);
+    shader.setInt(gl, "third_texture", 2);
     // the following two lines are before the Shader.setInt() method was implemented
     //gl.glUniform1i(gl.glGetUniformLocation(shader.getID(), "first_texture"), 0);
     //gl.glUniform1i(gl.glGetUniformLocation(shader.getID(), "second_texture"), 1);
@@ -97,6 +104,8 @@ public class T02_GLEventListener implements GLEventListener {
     gl.glBindTexture(GL.GL_TEXTURE_2D, textureId1[0]);
     gl.glActiveTexture(GL.GL_TEXTURE1);
     gl.glBindTexture(GL.GL_TEXTURE_2D, textureId2[0]);
+    gl.glActiveTexture(GL.GL_TEXTURE1);
+    gl.glBindTexture(GL.GL_TEXTURE_2D, textureId3[0]);
   
     gl.glBindVertexArray(vertexArrayId[0]);
     gl.glDrawElements(GL.GL_TRIANGLES, indices.length, GL.GL_UNSIGNED_INT, 0);

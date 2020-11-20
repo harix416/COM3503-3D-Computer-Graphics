@@ -71,10 +71,10 @@ public class L01_GLEventListener implements GLEventListener {
    */
 
   public void initialise(GL3 gl) {
-    shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01.txt");
-    //shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01_ambient.txt");
-    //shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01_diffuse.txt");
-    //shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01_specular.txt");
+    // shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01.txt");
+    // shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01_ambient.txt");
+    // shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01_diffuse.txt");
+    shaderCube = new Shader(gl, "vs_cube_01.txt", "fs_cube_01_specular.txt");
     shaderLight = new Shader(gl, "vs_light_01.txt", "fs_light_01.txt");
     fillBuffers(gl);
     light_fillBuffers(gl);
@@ -109,6 +109,9 @@ public class L01_GLEventListener implements GLEventListener {
   }
   
   private void renderCube(GL3 gl, Shader shader, Mat4 modelMatrix, Mat4 viewMatrix, Mat4 projectionMatrix) {
+    
+    double elapsedTime = getSeconds()-startTime;
+
     Mat4 mvpMatrix = Mat4.multiply(projectionMatrix, Mat4.multiply(viewMatrix, modelMatrix));
     
     shader.use(gl);
@@ -125,7 +128,17 @@ public class L01_GLEventListener implements GLEventListener {
     shader.setFloat(gl, "lightColor", 1f,1f,1f);
     shader.setVec3(gl, "lightPos", lightPosition);
     shader.setVec3(gl, "viewPos", camera.getPosition());
-  
+
+    // *** following three lines added
+    shader.setFloat(gl, "ambientStrength", 0.2f);
+    shader.setFloat(gl, "diffuseStrength", 0.7f); 
+    shader.setFloat(gl, "specularStrength", 0.7f);
+        
+    // *** the following three lines create some unusual lighting effects by varying the values
+    // shader.setFloat(gl, "ambientStrength", (float)(0.5 * 1+Math.sin(Math.toRadians(elapsedTime*10))));
+    // shader.setFloat(gl, "diffuseStrength", (float)(0.5 * 1+Math.sin(Math.toRadians(elapsedTime*30))));
+    // shader.setFloat(gl, "specularStrength", (float)(0.5 * 1+Math.sin(Math.toRadians(elapsedTime*50))));
+
     gl.glBindVertexArray(vertexArrayId[0]);
     gl.glDrawElements(GL.GL_TRIANGLES, indices.length, GL.GL_UNSIGNED_INT, 0);
     gl.glBindVertexArray(0);
@@ -136,16 +149,17 @@ public class L01_GLEventListener implements GLEventListener {
    */
    
   private Vec3 lightPosition = new Vec3(4f,5f,8f);
-  
-  private Mat4 getLightModelMatrix() {
-    Mat4 modelMatrix = new Mat4(1);
-    modelMatrix = Mat4.multiply(Mat4Transform.scale(0.3f,0.3f,0.3f), modelMatrix);
-    modelMatrix = Mat4.multiply(Mat4Transform.translate(lightPosition), modelMatrix);
-    return modelMatrix;
-  }
+  // private Vec3 lightPosition = new Vec3(2f,-2f,8f); 
+
+  // private Mat4 getLightModelMatrix() {
+  //   Mat4 modelMatrix = new Mat4(1);
+  //   modelMatrix = Mat4.multiply(Mat4Transform.scale(0.3f,0.3f,0.3f), modelMatrix);
+  //   modelMatrix = Mat4.multiply(Mat4Transform.translate(lightPosition), modelMatrix);
+  //   return modelMatrix;
+  // }
   
   // Alternative version for moving light
-  /* private Mat4 getLightModelMatrix() {
+  private Mat4 getLightModelMatrix() {
     double elapsedTime = getSeconds()-startTime;
     lightPosition.x = 5.0f*(float)(Math.sin(Math.toRadians(elapsedTime*50)));
     lightPosition.y = 3.0f;
@@ -154,7 +168,7 @@ public class L01_GLEventListener implements GLEventListener {
     modelMatrix = Mat4.multiply(Mat4Transform.scale(0.3f,0.3f,0.3f), modelMatrix);
     modelMatrix = Mat4.multiply(Mat4Transform.translate(lightPosition), modelMatrix);
     return modelMatrix;
-  }*/
+  }
   
   private void renderLight(GL3 gl, Shader shader, Mat4 modelMatrix, Mat4 view, Mat4 projection) {
     Mat4 mvpMatrix = Mat4.multiply(projection, Mat4.multiply(view, modelMatrix));

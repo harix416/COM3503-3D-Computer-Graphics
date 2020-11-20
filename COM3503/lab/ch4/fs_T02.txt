@@ -7,6 +7,8 @@ out vec4 fragColor;
 
 uniform sampler2D first_texture;
 uniform sampler2D second_texture;
+uniform sampler2D third_texture;
+uniform float mixAmount;
 
 void main() {
   // fragColor = vec4(aColor, 1.0f);
@@ -14,8 +16,9 @@ void main() {
   // fragColor = vec4(texture(first_texture, aTexCoord).rgb * aColor, 1.0f);
   // fragColor = vec4(texture(second_texture, aTexCoord).rgb * aColor, 1.0f);
   
-  fragColor = vec4(mix(texture(first_texture, aTexCoord),
-                       texture(second_texture, aTexCoord), 0.3f).rgb
-                   * aColor, 1.0f);
+  vec4 temp = mix(texture(first_texture, aTexCoord),
+                  texture(second_texture, aTexCoord), mixAmount);
+  temp = mix(temp, texture(third_texture, aTexCoord), mixAmount);
+  fragColor = vec4(temp.rgb * aColor, 1.0f);
   
 }

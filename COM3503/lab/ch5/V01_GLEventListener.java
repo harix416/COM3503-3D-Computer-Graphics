@@ -85,13 +85,15 @@ public class V01_GLEventListener implements GLEventListener {
     Mat4 projectionMatrix = Mat4Transform.perspective(45, aspect);
     
     float zposition = 2f;
-    //float zposition = 2f+(float)(Math.sin(Math.toRadians(elapsedTime*50)));
+    // float zposition = 2f+(float)(Math.sin(Math.toRadians(elapsedTime*50)));
     Vec3 position = new Vec3(0,0,zposition);
     Mat4 viewMatrix = Mat4Transform.lookAt(position, new Vec3(0,0,0), new Vec3(0,1,0));
     
     float angle = -55f;
-    //float angle = (float)(-115*Math.sin(Math.toRadians(elapsedTime*50)));
+    // float angle = (float)(-115*Math.sin(Math.toRadians(elapsedTime*50)));
     Mat4 modelMatrix = Mat4Transform.rotateAroundX(angle);
+    // Mat4 modelMatrix = Mat4Transform.rotateAroundY(angle);
+    // Mat4 modelMatrix = Mat4Transform.rotateAroundZ(angle);
     
     Mat4 mvpMatrix = Mat4.multiply(viewMatrix, modelMatrix);
     mvpMatrix = Mat4.multiply(projectionMatrix, mvpMatrix);

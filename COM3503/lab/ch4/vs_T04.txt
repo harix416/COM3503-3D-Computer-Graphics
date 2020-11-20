@@ -6,13 +6,15 @@ layout (location = 2) in vec2 texCoord;
 
 out vec3 aColor;
 out vec2 aTexCoord;
-out vec2 movingTexCoord;
+out vec2 movingTexCoord1, movingTexCoord2, movingTexCoord3;
 
-uniform vec2 offset;
+uniform vec2 offset1, offset2, offset3;
 
 void main() {
   gl_Position = vec4(position.x, position.y, position.z, 1.0);
   aColor = color;
   aTexCoord = texCoord;
-  movingTexCoord = texCoord + offset;
+  movingTexCoord1 = texCoord + offset1;
+  movingTexCoord2 = texCoord + offset2;
+  movingTexCoord3 = texCoord + offset3;
 }

@@ -27,7 +27,7 @@ public class A03_GLEventListener implements GLEventListener {
     gl.glEnable(GL.GL_DEPTH_TEST);
     gl.glDepthFunc(GL.GL_LESS);
     // gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_LINE);     // draw wireframe
-    // gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);  // default
+    gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);  // default
     initialise(gl);
   }
   

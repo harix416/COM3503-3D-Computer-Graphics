@@ -89,9 +89,9 @@ public class S04_GLEventListener implements GLEventListener {
     replaceVBO_XYZ(gl, 1, (float)Math.sin(elapsedTime)*0.5f, (float)Math.cos(elapsedTime)*0.5f,0);
     replaceVBO_XYZ(gl, 2, (float)Math.cos(elapsedTime*0.5), (float)Math.sin(elapsedTime*0.5),0);
     
-    //replaceVBO_RGB(gl, 0, inRange(Math.sin(elapsedTime)), inRange(Math.cos(elapsedTime)), inRange(Math.sin(elapsedTime)));
-    //replaceVBO_RGB(gl, 1, inRange(Math.cos(elapsedTime)), inRange(Math.sin(elapsedTime)), inRange(Math.sin(elapsedTime)));
-    //replaceVBO_RGB(gl, 2, inRange(Math.sin(elapsedTime)), inRange(Math.cos(elapsedTime)), inRange(Math.cos(elapsedTime)));
+    replaceVBO_RGB(gl, 0, inRange(Math.sin(elapsedTime)), inRange(Math.cos(elapsedTime)), inRange(Math.sin(elapsedTime)));
+    replaceVBO_RGB(gl, 1, inRange(Math.cos(elapsedTime)), inRange(Math.sin(elapsedTime)), inRange(Math.sin(elapsedTime)));
+    replaceVBO_RGB(gl, 2, inRange(Math.sin(elapsedTime)), inRange(Math.cos(elapsedTime)), inRange(Math.cos(elapsedTime)));
     
     gl.glUseProgram(shaderProgram);
     

@@ -75,7 +75,15 @@ public class L03_GLEventListener implements GLEventListener {
     
     Mesh m = new Mesh(gl, TwoTriangles.vertices.clone(), TwoTriangles.indices.clone());
     Shader shader = new Shader(gl, "vs_tt_03.txt", "fs_tt_03.txt");
-    Material material = new Material(new Vec3(0.1f, 0.5f, 0.91f), new Vec3(0.1f, 0.5f, 0.91f), new Vec3(0.3f, 0.3f, 0.3f), 4.0f);
+    // Material material = new Material(new Vec3(0.1f, 0.5f, 0.91f), new Vec3(0.1f, 0.5f, 0.91f), new Vec3(0.3f, 0.3f, 0.3f), 4.0f);
+    Material material = new Material(new Vec3(0.1f, 0.1f, 0.1f), new Vec3(0.8f, 0.8f, 0.8f), new Vec3(0.3f, 0.3f, 0.3f), 4.0f);
+    //The first Vec3 is the values for the ambient term. Here, red=0.1, green=0.5 and blue=0.91, which gives a blue-green colour.
+    //The second Vec3 is the diffuse term which, in this example, is set to the same colour as the ambient term.
+    //The third Vec3 is the specular term which, in this example, is set to 0.3f, meaning that the specular component is low.
+    //The final float is the power value that the specular term is raised to. A high value gives a small, 
+    //    focussed specular highlight. In this example, the value 4.0 should make the specular highlight more spread out. 
+    //    All these terms are used, along with the Material properties of the light source, the light position, the viewer position and the surface normal, 
+    //    for the calculation of the final value of a fragment, using a fragment shader:
     tt1 = new Model(gl, camera, light, shader, material, new Mat4(1), m);
 
     m = new Mesh(gl, Cube.vertices.clone(), Cube.indices.clone());
@@ -93,7 +101,7 @@ public class L03_GLEventListener implements GLEventListener {
   public void render(GL3 gl) {
     gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
-    //updateLightColour();
+    updateLightColour();
     light.setPosition(getLightPosition());  // changing light position each frame
     light.render(gl);
     

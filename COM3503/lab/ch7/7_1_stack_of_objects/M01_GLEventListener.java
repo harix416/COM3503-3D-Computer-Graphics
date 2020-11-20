@@ -64,13 +64,14 @@ public class M01_GLEventListener implements GLEventListener {
    */
    
   private Camera camera;
-  private Model tt1, cube, sphere;
+  private Model tt1, cube, sphere, sphere2;
   private Light light;
 
   private void disposeModels(GL3 gl) {
     tt1.dispose(gl);
     cube.dispose(gl);
     sphere.dispose(gl);
+    sphere2.dispose(gl);
     light.dispose(gl);
   }
   
@@ -90,12 +91,20 @@ public class M01_GLEventListener implements GLEventListener {
     Material material = new Material(new Vec3(0.0f, 0.5f, 0.81f), new Vec3(0.0f, 0.5f, 0.81f), new Vec3(0.3f, 0.3f, 0.3f), 32.0f);
     Mat4 modelMatrix = Mat4Transform.scale(16,1f,16);
     tt1 = new Model(gl, camera, light, shader, material, modelMatrix, m, textureId0);
+
+
+
+    float cubeHeight = 4.0f;  // *** added variable to make subsequent calculations easier
     
     m = new Mesh(gl, Cube.vertices.clone(), Cube.indices.clone());
     shader = new Shader(gl, "vs_cube_04.txt", "fs_cube_04.txt");
     material = new Material(new Vec3(1.0f, 0.5f, 0.31f), new Vec3(1.0f, 0.5f, 0.31f), new Vec3(0.5f, 0.5f, 0.5f), 32.0f);
-    modelMatrix = Mat4.multiply(Mat4Transform.scale(4,4,4), Mat4Transform.translate(0,0.5f,0));
+    modelMatrix = Mat4.multiply(Mat4Transform.scale(cubeHeight,cubeHeight,cubeHeight), Mat4Transform.translate(0,0.5f,0));
     cube = new Model(gl, camera, light, shader, material, modelMatrix, m, textureId1, textureId2);
+
+
+
+    float sphereHeight = 3f;  // *** added variable to make subsequent calculations easier
 
     m = new Mesh(gl, Sphere.vertices.clone(), Sphere.indices.clone());
     shader = new Shader(gl, "vs_sphere_04.txt", "fs_sphere_04.txt");
@@ -104,13 +113,26 @@ public class M01_GLEventListener implements GLEventListener {
     // shader = new Shader(gl, "vs_sphere_04.txt", "fs_sphere_04_notex.txt");
     
     material = new Material(new Vec3(1.0f, 0.5f, 0.31f), new Vec3(1.0f, 0.5f, 0.31f), new Vec3(0.5f, 0.5f, 0.5f), 32.0f);
-    modelMatrix = Mat4.multiply(Mat4Transform.scale(3,3,3), Mat4Transform.translate(0,0.5f,0));
-    modelMatrix = Mat4.multiply(Mat4Transform.translate(0,4,0), modelMatrix);
-    
+    modelMatrix = Mat4.multiply(Mat4Transform.scale(sphereHeight,sphereHeight,sphereHeight), Mat4Transform.translate(0,0.5f,0));
+    modelMatrix = Mat4.multiply(Mat4Transform.translate(0,cubeHeight,0), modelMatrix);
     sphere = new Model(gl, camera, light, shader, material, modelMatrix, m, textureId3, textureId4);
     
     // no texture version
     // sphere = new Model(gl, camera, light, shader, material, modelMatrix, m); 
+
+    
+    float sphere2Height = 3f;     // *** added variable to make subsequent calculations easier
+    m = new Mesh(gl, Cube.vertices.clone(), Cube.indices.clone());
+    shader = new Shader(gl, "vs_sphere_04.txt", "fs_sphere_04_notex.txt");
+    material = new Material(new Vec3(1.0f, 0.5f, 0.31f), new Vec3(1.0f, 0.5f, 0.31f), new Vec3(0.5f, 0.5f, 0.5f), 32.0f);
+
+    // Because we aren't using a scene graph, I'm having to think quite carefully about how to compose the transformations
+    // This is not the ideal way to do it. A scene graph would be better, as we shall see in the next section.
+    // *** scale by sphere2Height to make the object
+    modelMatrix = Mat4.multiply(Mat4Transform.scale(sphere2Height,sphere2Height,sphere2Height), Mat4Transform.translate(0,0.5f,0));
+    modelMatrix = Mat4.multiply(Mat4Transform.translate(0,cubeHeight+sphereHeight,0), modelMatrix);
+    sphere2 = new Model(gl, camera, light, shader, material, modelMatrix, m);
+
   }
  
   private void render(GL3 gl) {
@@ -122,6 +144,7 @@ public class M01_GLEventListener implements GLEventListener {
     tt1.render(gl);
     cube.render(gl);
     sphere.render(gl);
+    sphere2.render(gl);
   }
 
   // The light's postion is continually being changed, so needs to be calculated for each frame.

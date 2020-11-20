@@ -24,6 +24,9 @@ public class A01_GLEventListener implements GLEventListener {
     System.err.println("GL_VENDOR: " + gl.glGetString(GL.GL_VENDOR));
     System.err.println("GL_RENDERER: " + gl.glGetString(GL.GL_RENDERER));
     System.err.println("GL_VERSION: " + gl.glGetString(GL.GL_VERSION));
+
+
+    
     gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
                                     // Set the background colour for the OpenGL context: 0.0f <= {r,g,b,alpha} <= 1.0f.
     gl.glClearDepth(1.0f);          // Required for z buffer work in later examples. Will be explained there.

@@ -92,7 +92,8 @@ public class V03_GLEventListener implements GLEventListener {
   
     for (int i=-2; i<3; ++i) {
       for (int j=-2; j<3; ++j) {
-        Mat4 modelMatrix = getModelMatrix(2f*i, 2f*j);
+        Mat4 modelMatrix = getModelMatrix(2f*i, 2f*j, 1);
+        if (i%3==0) modelMatrix = getModelMatrix(2f*i, 2f*j, 2);
         Mat4 mvpMatrix = Mat4.multiply(projectionMatrix, Mat4.multiply(viewMatrix, modelMatrix));
 
         shader.setFloatArray(gl, "model", modelMatrix.toFloatArrayForGLSL());
@@ -107,14 +108,33 @@ public class V03_GLEventListener implements GLEventListener {
     
   // The following two methods are used to update the modelMatrix and viewMatrix over time.
   
-  private Mat4 getModelMatrix(float i, float j) {
+  // private Mat4 getModelMatrix(float i, float j) {
+  //   double elapsedTime = getSeconds()-startTime;
+  //   float angle = (float)(elapsedTime*50);
+  //   Mat4 modelMatrix = new Mat4(1);    
+  //   //modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
+  //   // modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.translate(i, 0, j)); //平移cube 输入的是平移坐标
+  //   //modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundX(angle));
+  //   // modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
+  //   // modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.translate(i, 0, j)); //平移cube 输入的是平移坐标
+  //   modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
+  //   modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.translate(i, 0, j));
+  //   modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundX(angle));
+  //   return modelMatrix;
+  // }
+
+  private Mat4 getModelMatrix(float i, float j, int choice) {
     double elapsedTime = getSeconds()-startTime;
     float angle = (float)(elapsedTime*50);
-    Mat4 modelMatrix = new Mat4(1);    
-    //modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
-    modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.translate(i, 0, j));
-    //modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundX(angle));
-    modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
+    Mat4 modelMatrix = new Mat4(1);
+    if (choice==1) {
+      modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.translate(i, 0, j));
+      modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
+    }
+    else {
+      modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.rotateAroundY(angle));
+      modelMatrix = Mat4.multiply(modelMatrix, Mat4Transform.translate(i, 0, j));
+    }
     return modelMatrix;
   }
   

@@ -78,11 +78,14 @@ public class T01_GLEventListener implements GLEventListener {
     shader = new Shader(gl, "vs_T01.txt", "fs_T01.txt");
     fillBuffers(gl);
     textureId1 = TextureLibrary.loadTexture(gl, "wattBook.jpg");
-    /*
-    textureId1 = TextureLibrary.loadTexture(gl, "wattBook.jpg", 
-                      GL.GL_CLAMP_TO_EDGE, GL.GL_CLAMP_TO_EDGE,
-                      GL.GL_LINEAR, GL.GL_LINEAR);
-    */
+    
+    // textureId1 = TextureLibrary.loadTexture(gl, "wattBook.jpg", 
+    //                   GL.GL_CLAMP_TO_EDGE, GL.GL_CLAMP_TO_EDGE,
+    //                   GL.GL_LINEAR, GL.GL_LINEAR);
+    
+    // textureId1 = TextureLibrary.loadTexture(gl, "wattBook.jpg",
+    // GL.GL_REPEAT, GL.GL_CLAMP_TO_EDGE,
+    // GL.GL_LINEAR, GL.GL_LINEAR);
   }
 
   public void render(GL3 gl) {
@@ -111,6 +114,12 @@ public class T01_GLEventListener implements GLEventListener {
     -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f
   };
   
+//   private float[] vertices = {      // position, colour, tex coords
+//     0.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  3.2f, 4.4f,
+//     0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  4.0f, 0.0f,
+//    -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f
+//  };
+
   private int vertexStride = 8;
   private int vertexXYZFloats = 3;
   private int vertexColourFloats = 3;

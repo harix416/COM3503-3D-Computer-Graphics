@@ -23,11 +23,15 @@ public class A02 extends JFrame {
 
   public A02(String textForTitleBar) {
     super(textForTitleBar);
+
+    
     GLCapabilities glcapabilities = new GLCapabilities(GLProfile.get(GLProfile.GL3));
     canvas = new GLCanvas(glcapabilities);
     glEventListener = new A02_GLEventListener();
     canvas.addGLEventListener(glEventListener);
     getContentPane().add(canvas, BorderLayout.CENTER);
+
+
     addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
         animator.stop();

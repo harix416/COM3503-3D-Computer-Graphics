@@ -76,6 +76,10 @@ public class S05_GLEventListener implements GLEventListener {
     gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 	
     shader.use(gl);
+
+    float xOffset = 0.5f;
+    float yOffset = 0.0f;
+    shader.setFloat(gl, "uniformOffset", xOffset, yOffset);
 	
     gl.glBindVertexArray(vertexArrayId[0]);
     gl.glDrawElements(GL.GL_TRIANGLES, indices.length, GL.GL_UNSIGNED_INT, 0);
