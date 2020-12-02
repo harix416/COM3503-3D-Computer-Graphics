@@ -136,6 +136,25 @@ public class Mat4 {   // row column formulation
     }
     return s;
   }
+
+  /**
+  * Gets the rotated direction of the spotlight
+  *
+  * @return The x, y, z rotation of the spotlight
+  */
+  public Vec3 getRotationVec() {
+    /*
+     * The X rotation of headJoint is the Z of the light bulb
+     * The Y rotation of headJoint is the Y of the light bulb
+     * The Z rotation of headJoint is the X of the light bulb
+     */
+    float x = (float) Math.asin(values[0][1]);
+    float y = (float) Math.asin(values[1][1]);
+    float z = (float) Math.asin(values[2][1]);
+
+    return new Vec3(-x, -y, -z);
+  }
+
   
   public String toString() {
     String s = "{";

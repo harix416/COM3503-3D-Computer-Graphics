@@ -47,27 +47,31 @@ public class M04 extends JFrame implements ActionListener {
       JButton b = new JButton("camera X");
       b.addActionListener(this);
       p.add(b);
+
       b = new JButton("camera Z");
       b.addActionListener(this);
       p.add(b);
+
       b = new JButton("start");
       b.addActionListener(this);
       p.add(b);
+
       b = new JButton("stop");
       b.addActionListener(this);
       p.add(b);
-      b = new JButton("increase X position");
+
+      b = new JButton("Random Pose");
       b.addActionListener(this);
       p.add(b);
-      b = new JButton("decrease X position");
+
+      b = new JButton("turn on the light");
       b.addActionListener(this);
       p.add(b);
-      b = new JButton("lowered arms");
+
+      b = new JButton("turn of the light");
       b.addActionListener(this);
       p.add(b);
-      b = new JButton("raised arms");
-      b.addActionListener(this);
-      p.add(b);
+
     this.add(p, BorderLayout.SOUTH);
     
     addWindowListener(new WindowAdapter() {
@@ -82,7 +86,21 @@ public class M04 extends JFrame implements ActionListener {
     animator.start();
   }
   
+
   public void actionPerformed(ActionEvent e) {
+    if (e.getActionCommand().equalsIgnoreCase("start")) {
+      glEventListener.startAnimation();
+    }else if (e.getActionCommand().equalsIgnoreCase("stop")) {
+      glEventListener.stopAnimation();
+    }else if (e.getActionCommand().equalsIgnoreCase("turn on the light")) {
+      glEventListener.turnOnLight();
+    }
+    else if (e.getActionCommand().equalsIgnoreCase("turn of the light")) {
+      glEventListener.turnOffLight();
+    } else if (e.getActionCommand().equalsIgnoreCase("Random Pose")) {
+      glEventListener.randomPos();
+    }
+     /*actionPerformed
     if (e.getActionCommand().equalsIgnoreCase("camera X")) {
       camera.setCamera(Camera.CameraType.X);
       canvas.requestFocusInWindow();
@@ -111,7 +129,9 @@ public class M04 extends JFrame implements ActionListener {
     }
     else if(e.getActionCommand().equalsIgnoreCase("quit"))
       System.exit(0);
+    */
   }
+
   
 }
  

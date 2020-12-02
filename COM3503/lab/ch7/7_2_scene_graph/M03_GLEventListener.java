@@ -95,10 +95,15 @@ public class M03_GLEventListener implements GLEventListener {
   private Light light;
   private SGNode twoBranchRoot;
   
-  private TransformNode translateX, rotateAll, rotateUpper;
+  private TransformNode translateX, rotateAll, rotateUpper, rotateUpper2;
   private float xPosition = 0;
   private float rotateAllAngleStart = 25, rotateAllAngle = rotateAllAngleStart;
   private float rotateUpperAngleStart = -60, rotateUpperAngle = rotateUpperAngleStart;
+
+  // private float rotateAllAngleStart1 = 25, rotateAllAngle1 = rotateAllAngleStart1;
+  private float rotateUpperAngleStart1 = -60, rotateUpper2Angle = rotateUpperAngleStart1;
+  
+  
   
   private void initialise(GL3 gl) {
     createRandomNumbers();
@@ -118,25 +123,53 @@ public class M03_GLEventListener implements GLEventListener {
     mesh = new Mesh(gl, Sphere.vertices.clone(), Sphere.indices.clone());
     shader = new Shader(gl, "vs_cube_04.txt", "fs_cube_04.txt");
     material = new Material(new Vec3(1.0f, 0.5f, 0.31f), new Vec3(1.0f, 0.5f, 0.31f), new Vec3(0.5f, 0.5f, 0.5f), 32.0f);
+    // The modelMatrix is irrelevant if the sphere is being used in a scene graph.
+    // When drawing a scene graph, the modelMatrix for the object is ignored.
+    // It would make more sense to make this matrix equal to the identity matrix, new Mat4(1)
     modelMatrix = Mat4.multiply(Mat4Transform.scale(4,4,4), Mat4Transform.translate(0,0.5f,0));
     sphere = new Model(gl, camera, light, shader, material, modelMatrix, mesh, textureId1, textureId2);
     
+    // Now create the pieces of the scene graph.
+    // Some of these are varaibles declared in the method, whilst some are 
+    // variables declared at class level. This means they can then be
+    // updated in other parts of the program.
+  
     twoBranchRoot = new NameNode("two-branch structure");
+    
+// ***
+    float lowerBranchHeight = 4f;
+    
     translateX = new TransformNode("translate("+xPosition+",0,0)", Mat4Transform.translate(xPosition,0,0));
     rotateAll = new TransformNode("rotateAroundZ("+rotateAllAngle+")", Mat4Transform.rotateAroundZ(rotateAllAngle));
     NameNode lowerBranch = new NameNode("lower branch");
-    Mat4 m = Mat4Transform.scale(2.5f,4,2.5f);
+// ***                                ***
+    Mat4 m = Mat4Transform.scale(2.5f,lowerBranchHeight,2.5f);
     m = Mat4.multiply(m, Mat4Transform.translate(0,0.5f,0));
-    TransformNode makeLowerBranch = new TransformNode("scale(2.5,4,2.5); translate(0,0.5,0)", m);
+// ***                                                             ***
+    TransformNode makeLowerBranch = new TransformNode("scale(2.5,"+lowerBranchHeight+",2.5); translate(0,0.5,0)", m);
     ModelNode cube0Node = new ModelNode("Sphere(0)", sphere);
-    TransformNode translateToTop = new TransformNode("translate(0,4,0)",Mat4Transform.translate(0,4,0));
+
+// ***1                                                             ***                                               ***
+    TransformNode translateToTop = new TransformNode("translate(0,"+lowerBranchHeight+",0)",Mat4Transform.translate(0,lowerBranchHeight,0));
     rotateUpper = new TransformNode("rotateAroundZ("+rotateUpperAngle+")",Mat4Transform.rotateAroundZ(rotateUpperAngle));
     NameNode upperBranch = new NameNode("upper branch");
     m = Mat4Transform.scale(1.4f,3.1f,1.4f);
     m = Mat4.multiply(m, Mat4Transform.translate(0,0.5f,0));
     TransformNode makeUpperBranch = new TransformNode("scale(1.4f,3.1f,1.4f);translate(0,0.5,0)", m);
     ModelNode cube1Node = new ModelNode("Sphere(1)", sphere);
-        
+    
+// ***2                                                              ***                                                ***
+    TransformNode translateToTop2 = new TransformNode("translate(0,"+lowerBranchHeight+",0)",Mat4Transform.translate(0f,lowerBranchHeight,0f));
+    rotateUpper2 = new TransformNode("rotateAroundZ("+rotateUpper2Angle+")",Mat4Transform.rotateAroundZ(rotateUpper2Angle));
+    NameNode upper2Branch = new NameNode("upper 2 branch");
+    m = Mat4Transform.scale(1.6f,2.8f,1.6f);
+    m = Mat4.multiply(m, Mat4Transform.translate(0,0.5f,0));
+    TransformNode makeUpper2Branch = new TransformNode("scale(0.6f,1.4f,0.6f);translate(0,0.5,0)", m);
+    ModelNode cube2Node = new ModelNode("Sphere(2)", sphere);
+    
+    // Then, put all the pieces together to make the scene graph
+    // Indentation is meant to show the hierarchy.
+  
     twoBranchRoot.addChild(translateX);
       translateX.addChild(rotateAll);
         rotateAll.addChild(lowerBranch);
@@ -147,8 +180,15 @@ public class M03_GLEventListener implements GLEventListener {
               rotateUpper.addChild(upperBranch);
                 upperBranch.addChild(makeUpperBranch);
                   makeUpperBranch.addChild(cube1Node);
+          lowerBranch.addChild(translateToTop2);
+            translateToTop2.addChild(rotateUpper2);
+              rotateUpper2.addChild(upper2Branch);
+                upper2Branch.addChild(makeUpper2Branch);
+                  makeUpper2Branch.addChild(cube2Node);
+            
     twoBranchRoot.update();  // IMPORTANT – must be done every time any part of the scene graph changes
-    //twoBranchRoot.print(0, false);
+    
+    //twoBranchRoot.print(0, false); // for debugging
     //System.exit(0);
   }
  
